@@ -6,11 +6,15 @@
   "permissions": [
     "storage",
     "scripting",
-    "clipboardRead"
+    "clipboardRead",
+    "identity"
   ],
   "host_permissions": [
     "<all_urls>"
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' https://www.gstatic.com https://apis.google.com; object-src 'self'"
+  },
   "background": {
     "service_worker": "background.js",
     "type": "module"

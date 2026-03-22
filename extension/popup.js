@@ -74,6 +74,11 @@ async function signInWithGoogle() {
   try {
     showLoading();
 
+    // Check if Firebase is properly initialized
+    if (!firebase || !auth) {
+      throw new Error('Firebase not initialized. Please reload the extension.');
+    }
+
     // Use Firebase Auth with popup
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('email');
