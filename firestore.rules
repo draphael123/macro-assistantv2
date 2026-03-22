@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users collection - only the owner can read/write their own document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Snippets collection
+    match /snippets/{snippetId} {
+      // Owner can do anything with their snippets
+      allow read, write, delete: if request.auth != null
+        && request.auth.uid == resource.data.ownerId;
+
+      // Allow create if the user is the owner
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.ownerId;
+
+      // Shared users can read only
+      allow read: if request.auth != null
+        && request.auth.uid in resource.data.sharedWith;
+    }
+  }
+}

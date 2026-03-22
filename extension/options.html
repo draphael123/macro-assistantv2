@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnippetApp Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .header-title h1 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .header-title p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .user-name {
+      font-weight: 500;
+    }
+
+    .sign-out-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .sign-out-btn:hover {
+      background: #f5f5f5;
+    }
+
+    /* Section */
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Settings */
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+    .setting-label {
+      font-weight: 500;
+    }
+
+    .setting-description {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .setting-control select,
+    .setting-control input[type="text"] {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      min-width: 120px;
+    }
+
+    /* Snippet Table */
+    .snippet-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .snippet-table th {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 2px solid #eee;
+      font-weight: 600;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .snippet-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+
+    .snippet-table tr:hover {
+      background: #f9f9f9;
+    }
+
+    .snippet-shortcode {
+      font-family: 'Monaco', 'Consolas', monospace;
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .snippet-expansion {
+      max-width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #666;
+    }
+
+    .snippet-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .action-btn:hover {
+      opacity: 0.8;
+    }
+
+    .action-btn.edit {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .action-btn.share {
+      background: #e8f5e9;
+      color: #388e3c;
+    }
+
+    .action-btn.delete {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
+    .shared-badge {
+      font-size: 11px;
+      background: #e8f4fd;
+      color: #1976d2;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    /* Add Snippet Form */
+    .add-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      color: #333;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #d32f2f;
+      border: none;
+      color: white;
+    }
+
+    /* Share Modal */
+    .share-user-list {
+      margin-top: 16px;
+    }
+
+    .share-user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .share-user-email {
+      font-size: 14px;
+    }
+
+    .remove-share-btn {
+      background: none;
+      border: none;
+      color: #d32f2f;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: #999;
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      color: #ccc;
+    }
+
+    .empty-state h3 {
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    /* Hidden */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Loading */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #e0e0e0;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Token Help */
+    .token-help {
+      background: #f8f9fa;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .token-help-title {
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .token-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .token-code {
+      font-family: 'Monaco', 'Consolas', monospace;
+      background: #e0e0e0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Loading View -->
+    <div id="loadingView" class="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Sign In Required -->
+    <div id="signInView" class="section hidden">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <polyline points="10,17 15,12 10,7"></polyline>
+          <line x1="15" y1="12" x2="3" y2="12"></line>
+        </svg>
+        <h3>Sign in required</h3>
+        <p>Please sign in using the extension popup to manage your snippets.</p>
+      </div>
+    </div>
+
+    <!-- Main View -->
+    <div id="mainView" class="hidden">
+      <div class="header">
+        <div class="header-left">
+          <div class="logo">S</div>
+          <div class="header-title">
+            <h1>SnippetApp</h1>
+            <p>Manage your snippets and settings</p>
+          </div>
+        </div>
+        <div class="user-info">
+          <img id="userAvatar" class="user-avatar" src="" alt="User">
+          <span id="userName" class="user-name"></span>
+          <button class="sign-out-btn" id="signOutBtn">Sign Out</button>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="section">
+        <h2 class="section-title">Settings</h2>
+        <div class="setting-row">
+          <div>
+            <div class="setting-label">Trigger Prefix</div>
+            <div class="setting-description">The character(s) that trigger snippet expansion</div>
+          </div>
+          <div class="setting-control">
+            <select id="triggerPrefixSelect">
+              <option value=";">; (semicolon)</option>
+              <option value="//">//  (double slash)</option>
+              <option value="::">:: (double colon)</option>
+              <option value="\\">\\ (backslash)</option>
+              <option value="custom">Custom...</option>
+            </select>
+          </div>
+        </div>
+        <div class="setting-row hidden" id="customPrefixRow">
+          <div>
+            <div class="setting-label">Custom Prefix</div>
+            <div class="setting-description">Enter your custom trigger prefix</div>
+          </div>
+          <div class="setting-control">
+            <input type="text" id="customPrefixInput" maxlength="4" placeholder="e.g. ##">
+          </div>
+        </div>
+      </div>
+
+      <!-- Snippets Section -->
+      <div class="section">
+        <div class="section-title">
+          <span>My Snippets</span>
+          <button class="add-btn" id="addSnippetBtn">+ New Snippet</button>
+        </div>
+
+        <div id="snippetTableContainer">
+          <table class="snippet-table" id="snippetTable">
+            <thead>
+              <tr>
+                <th>Label</th>
+                <th>Shortcode</th>
+                <th>Expansion</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="snippetTableBody">
+              <!-- Snippets rendered here -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="empty-state hidden" id="emptyState">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          <h3>No snippets yet</h3>
+          <p>Create your first snippet to get started</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Snippet Modal -->
+  <div class="modal-overlay hidden" id="snippetModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">New Snippet</h3>
+        <button class="modal-close" id="modalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Label</label>
+          <input type="text" class="form-input" id="snippetLabel" placeholder="e.g. Email Signature">
+          <div class="form-hint">A friendly name for this snippet</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Shortcode</label>
+          <input type="text" class="form-input" id="snippetShortcode" placeholder="e.g. sig">
+          <div class="form-hint">Type this after your trigger prefix to expand</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expansion</label>
+          <textarea class="form-textarea" id="snippetExpansion" placeholder="e.g. Best regards,&#10;John Doe&#10;Company Inc."></textarea>
+          <div class="token-help">
+            <div class="token-help-title">Dynamic Tokens</div>
+            <div class="token-item">
+              <span class="token-code">{date}</span>
+              <span>Inserts today's date</span>
+            </div>
+            <div class="token-item">
+              <span class="token-code">{time}</span>
+              <span>Inserts current time</span>
+            </div>
+            <div class="token-item">
+              <span class="token-code">{clipboard}</span>
+              <span>Inserts clipboard content</span>
+            </div>
+            <div class="token-item">
+              <span class="token-code">{cursor}</span>
+              <span>Places cursor here after expansion</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tags (optional)</label>
+          <input type="text" class="form-input" id="snippetTags" placeholder="e.g. work, email">
+          <div class="form-hint">Comma-separated tags for organization</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modalCancel">Cancel</button>
+        <button class="btn btn-primary" id="modalSave">Save Snippet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal-overlay hidden" id="shareModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Share Snippet</h3>
+        <button class="modal-close" id="shareModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Share with (email)</label>
+          <input type="email" class="form-input" id="shareEmail" placeholder="teammate@company.com">
+          <div class="form-hint">Enter your teammate's Google account email</div>
+        </div>
+        <button class="btn btn-primary" id="addShareBtn" style="width: 100%;">Add User</button>
+
+        <div class="share-user-list" id="shareUserList">
+          <!-- Shared users rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="shareModalCancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay hidden" id="deleteModal">
+    <div class="modal" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Delete Snippet</h3>
+        <button class="modal-close" id="deleteModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this snippet? This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="deleteModalCancel">Cancel</button>
+        <button class="btn btn-danger" id="deleteModalConfirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="firebase-config.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

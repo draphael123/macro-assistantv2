@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(firebase --version:*)",
+      "Bash(npm:*)",
+      "Bash(firebase projects:list:*)",
+      "Bash(firebase login:*)",
+      "Bash(cat:*)",
+      "Bash(firebase projects:addfirebase:*)",
+      "Bash(firebase logout:*)",
+      "Bash(firebase projects:create:*)",
+      "Bash(firebase use:*)",
+      "Bash(firebase firestore:databases:create:*)",
+      "Bash(gcloud services enable:*)",
+      "Bash(firebase init:*)",
+      "Bash(printf:*)",
+      "Bash(firebase firestore:databases:list:*)",
+      "Bash(firebase apps:create:*)",
+      "Bash(firebase apps:sdkconfig:*)",
+      "Bash(firebase deploy:*)",
+      "Bash(firebase login:ci:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
