@@ -1,5 +1,5 @@
 // SnippetApp Landing Page Script
-// Handles Google Sign-In and demo animations
+// Handles Google Sign-In, demo animations, and UI interactions
 
 // Firebase Configuration
 const firebaseConfig = {
@@ -23,9 +23,21 @@ let db = null;
 
 // DOM Elements
 const googleSignInBtn = document.getElementById('googleSignInBtn');
-const navSignIn = document.getElementById('navSignIn');
 const authStatus = document.getElementById('authStatus');
 const demoLine = document.getElementById('demoLine');
+const nav = document.querySelector('nav');
+
+// Nav scroll state
+function handleNavScroll() {
+  if (window.scrollY > 10) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+}
+
+window.addEventListener('scroll', handleNavScroll);
+handleNavScroll(); // Check initial state
 
 // Load Firebase SDK dynamically
 async function loadFirebase() {
@@ -90,8 +102,6 @@ async function signInWithGoogle() {
 function showAuthSuccess() {
   googleSignInBtn.classList.add('hidden');
   authStatus.classList.remove('hidden');
-  navSignIn.textContent = 'Signed In';
-  navSignIn.style.background = '#28a745';
 }
 
 // Check if already signed in
@@ -103,45 +113,54 @@ function checkAuthState() {
   });
 }
 
-// Demo animation
+// Demo animation - types shortcode then expands
 function animateDemo() {
-  const shortcode = ';sig';
-  const expansion = `Best regards,
-Daniel Raphael
-Fountain Vitality`;
+  const shortcode = ';ty';
+  const expansion = 'Thank you so much for your help!';
 
-  let phase = 0; // 0: typing shortcode, 1: pause, 2: expand, 3: pause, 4: reset
+  let phase = 0;
+  // 0: typing shortcode
+  // 1: pause
+  // 2: expand (replace shortcode with expansion)
+  // 3: pause with full expansion
+  // 4: reset
+
   let charIndex = 0;
 
   function type() {
     if (phase === 0) {
-      // Typing shortcode
+      // Typing shortcode character by character
       if (charIndex <= shortcode.length) {
-        demoLine.innerHTML = `<span class="demo-shortcode">${shortcode.slice(0, charIndex)}</span><span class="demo-cursor"></span>`;
+        const typed = shortcode.slice(0, charIndex);
+        demoLine.innerHTML = `<span class="demo-shortcode">${typed}</span><span class="demo-cursor"></span>`;
         charIndex++;
-        setTimeout(type, 150);
+        setTimeout(type, 120);
       } else {
         phase = 1;
-        setTimeout(type, 800);
+        setTimeout(type, 600);
       }
     } else if (phase === 1) {
-      // Pause before expansion
+      // Brief pause before expansion
       phase = 2;
       charIndex = 0;
       type();
     } else if (phase === 2) {
-      // Expanding
-      const lines = expansion.split('\n');
-      const displayLines = lines.slice(0, Math.min(3, lines.length));
-      demoLine.innerHTML = `<span class="demo-expansion">${displayLines.join('<br>')}</span><span class="demo-cursor"></span>`;
-      phase = 3;
-      setTimeout(type, 3000);
+      // Expansion animation - type out the expansion
+      if (charIndex <= expansion.length) {
+        const typed = expansion.slice(0, charIndex);
+        demoLine.innerHTML = `<span class="demo-expansion">${typed}</span><span class="demo-cursor"></span>`;
+        charIndex++;
+        setTimeout(type, 25);
+      } else {
+        phase = 3;
+        setTimeout(type, 2500);
+      }
     } else if (phase === 3) {
-      // Pause after expansion
+      // Pause with full expansion shown
       phase = 4;
       type();
     } else if (phase === 4) {
-      // Reset
+      // Reset - clear and start over
       phase = 0;
       charIndex = 0;
       demoLine.innerHTML = '<span class="demo-cursor"></span>';
@@ -150,7 +169,7 @@ Fountain Vitality`;
   }
 
   // Start animation after a short delay
-  setTimeout(type, 2000);
+  setTimeout(type, 1500);
 }
 
 // Smooth scroll for nav links
@@ -171,14 +190,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Event listeners
-googleSignInBtn.addEventListener('click', signInWithGoogle);
-navSignIn.addEventListener('click', (e) => {
-  e.preventDefault();
-  document.getElementById('get-started').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-});
+if (googleSignInBtn) {
+  googleSignInBtn.addEventListener('click', signInWithGoogle);
+}
 
 // Initialize
 (async function init() {
