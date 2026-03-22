@@ -109,17 +109,19 @@
     }
 
     .nav-cta {
-      padding: 10px 24px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
+      padding: 8px 20px;
+      background: transparent;
+      color: var(--primary);
       text-decoration: none;
+      border: 2px solid var(--primary);
       border-radius: 8px;
       font-weight: 600;
-      transition: opacity 0.2s;
+      transition: background 0.2s, color 0.2s;
     }
 
     .nav-cta:hover {
-      opacity: 0.9;
+      background: var(--primary);
+      color: white;
     }
 
     /* Hero Section */
@@ -210,21 +212,28 @@
     .demo-dot.green { background: #28c940; }
 
     .demo-content {
-      padding: 24px;
-      font-family: 'Monaco', 'Consolas', monospace;
-      font-size: 14px;
-      line-height: 1.8;
-      min-height: 180px;
+      padding: 32px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .demo-line {
-      margin-bottom: 8px;
+    .demo-input-area {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 80px;
     }
 
     .demo-cursor {
       display: inline-block;
       width: 2px;
-      height: 18px;
+      height: 20px;
       background: var(--primary);
       animation: blink 1s infinite;
       vertical-align: middle;
@@ -239,24 +248,42 @@
     .demo-shortcode {
       color: var(--primary);
       font-weight: 600;
+      background: rgba(102, 126, 234, 0.1);
+      padding: 2px 4px;
+      border-radius: 4px;
     }
 
     .demo-expansion {
-      color: #28a745;
+      color: var(--text);
+    }
+
+    .demo-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .demo-arrow {
+      text-align: center;
+      margin: 16px 0;
+      color: var(--primary);
+      font-size: 20px;
     }
 
     /* Social Proof */
     .social-proof {
       padding: 40px 0;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      background: var(--white);
+      border-top: 2px solid #e8e8e8;
+      border-bottom: 2px solid #e8e8e8;
+      background: linear-gradient(180deg, #fafbfc 0%, #f5f6f8 100%);
     }
 
     .social-proof .container {
       display: flex;
       justify-content: center;
-      gap: 80px;
+      gap: 0;
       text-align: center;
     }
 
@@ -264,6 +291,26 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 0 60px;
+      position: relative;
+    }
+
+    .stat-block:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 40px;
+      width: 1px;
+      background: #ddd;
+    }
+
+    .stat-stars {
+      color: #f5a623;
+      font-size: 16px;
+      margin-bottom: 4px;
+      letter-spacing: 2px;
     }
 
     .stat-number {
@@ -299,33 +346,32 @@
 
     .step {
       position: relative;
-      overflow: hidden;
-      text-align: left;
-      padding: 40px 40px 40px 48px;
+      overflow: visible;
+      text-align: center;
+      padding: 40px;
       background: var(--bg);
       border-radius: 16px;
-      border-left: 4px solid var(--primary);
-      transition: transform 0.2s;
+      border: 1px solid #e8e8e8;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .step:hover {
       transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.12);
     }
 
     .step-number {
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
+      margin: 0 auto 16px auto;
     }
 
     .step h3 {
@@ -393,12 +439,25 @@
     }
 
     /* Integrations */
+    .integrations-wrapper {
+      margin-top: 48px;
+      text-align: center;
+    }
+
+    .integrations-label {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
     .integrations {
       display: flex;
       gap: 32px;
       justify-content: center;
       align-items: center;
-      margin-top: 48px;
       flex-wrap: wrap;
     }
 
@@ -442,9 +501,10 @@
     }
 
     .cta-section .container {
-      background: linear-gradient(135deg, #f0f4ff 0%, #f8f0ff 100%);
+      background: linear-gradient(135deg, #e8edff 0%, #f0e6ff 100%);
       border-radius: 16px;
       padding: 64px 24px;
+      border: 1px solid rgba(102, 126, 234, 0.15);
     }
 
     .cta-section h2 {
@@ -517,6 +577,34 @@
       background: #e8f5e9;
       border-radius: 8px;
       color: #2e7d32;
+    }
+
+    .auth-reassurance {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .auth-reassurance svg {
+      width: 14px;
+      height: 14px;
+      color: #888;
+    }
+
+    /* Scroll Animations */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Footer */
@@ -622,7 +710,15 @@
 
       .social-proof .container {
         flex-wrap: wrap;
-        gap: 40px;
+        gap: 32px;
+      }
+
+      .stat-block {
+        padding: 0 32px;
+      }
+
+      .stat-block:not(:last-child)::after {
+        display: none;
       }
     }
 
@@ -663,7 +759,7 @@
     <div class="container">
       <div class="hero-content">
         <h1>Type Less,<br>Do More</h1>
-        <p>Create shortcodes that expand into full text snippets as you type. Share with your team. Works everywhere in Chrome.</p>
+        <p>Create shortcodes that expand into full text snippets as you type. Share&nbsp;with&nbsp;your&nbsp;team. Works everywhere in Chrome.</p>
         <a href="https://chromewebstore.google.com/detail/snippetapp/YOUR_EXTENSION_ID" class="hero-cta">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="3" width="7" height="7" rx="1"></rect>
@@ -682,11 +778,8 @@
             <div class="demo-dot green"></div>
           </div>
           <div class="demo-content">
-            <div class="demo-line">Hey Sarah,</div>
-            <div class="demo-line">&nbsp;</div>
-            <div class="demo-line">Thanks for reaching out!</div>
-            <div class="demo-line">&nbsp;</div>
-            <div class="demo-line" id="demoLine">
+            <div class="demo-label">Type a shortcode...</div>
+            <div class="demo-input-area" id="demoLine">
               <span class="demo-cursor"></span>
             </div>
           </div>
@@ -698,15 +791,16 @@
   <!-- Social Proof -->
   <section class="social-proof">
     <div class="container">
-      <div class="stat-block">
+      <div class="stat-block stat-item animate-on-scroll">
         <span class="stat-number">500+</span>
         <span class="stat-label">Teams Using SnippetApp</span>
       </div>
-      <div class="stat-block">
+      <div class="stat-block stat-item animate-on-scroll">
         <span class="stat-number">2M+</span>
         <span class="stat-label">Keystrokes Saved</span>
       </div>
-      <div class="stat-block">
+      <div class="stat-block stat-item animate-on-scroll">
+        <span class="stat-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
         <span class="stat-number">4.9</span>
         <span class="stat-label">Average Rating</span>
       </div>
@@ -718,17 +812,17 @@
     <div class="container">
       <h2 class="section-title">How It Works</h2>
       <div class="steps">
-        <div class="step">
+        <div class="step animate-on-scroll">
           <div class="step-number">1</div>
           <h3>Install Extension</h3>
           <p>Add SnippetApp to Chrome with one click from the Chrome Web Store. Sign in with your Google account.</p>
         </div>
-        <div class="step">
+        <div class="step animate-on-scroll">
           <div class="step-number">2</div>
           <h3>Create Snippets</h3>
           <p>Define shortcodes and their expansions. Add dynamic variables like dates and clipboard.</p>
         </div>
-        <div class="step">
+        <div class="step animate-on-scroll">
           <div class="step-number">3</div>
           <h3>Start Typing</h3>
           <p>Type your shortcode anywhere. It automatically expands into the full snippet.</p>
@@ -742,7 +836,7 @@
     <div class="container">
       <h2 class="section-title">Features</h2>
       <div class="feature-grid">
-        <div class="feature">
+        <div class="feature animate-on-scroll">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="4,17 10,11 4,5"></polyline>
@@ -754,7 +848,7 @@
             <p>Type your shortcode and watch it expand instantly. Works in any text field across the web.</p>
           </div>
         </div>
-        <div class="feature">
+        <div class="feature animate-on-scroll">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -768,7 +862,7 @@
             <p>Share snippets with teammates by email. Everyone stays on the same page with consistent messaging.</p>
           </div>
         </div>
-        <div class="feature">
+        <div class="feature animate-on-scroll">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
@@ -782,7 +876,7 @@
             <p>Insert today's date, current time, or clipboard content automatically with special tokens.</p>
           </div>
         </div>
-        <div class="feature">
+        <div class="feature animate-on-scroll">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -798,8 +892,10 @@
       </div>
 
       <!-- Integrations -->
-      <div class="integrations">
-        <div class="integration-item">
+      <div class="integrations-wrapper">
+        <p class="integrations-label">Works seamlessly with your favorite tools</p>
+        <div class="integrations">
+          <div class="integration-item">
           <div class="integration-icon">
             <svg viewBox="0 0 24 24" fill="#EA4335">
               <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
@@ -839,6 +935,7 @@
           </div>
           <span class="integration-label">LinkedIn</span>
         </div>
+        </div>
       </div>
     </div>
   </section>
@@ -869,6 +966,13 @@
           </svg>
           Sign in with Google
         </button>
+        <div class="auth-reassurance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          No credit card required. Your data stays private.
+        </div>
         <div class="auth-status hidden" id="authStatus">
           You're signed in! Open the Chrome extension to get started.
         </div>

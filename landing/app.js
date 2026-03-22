@@ -115,12 +115,13 @@ function checkAuthState() {
 
 // Demo animation - types shortcode then expands
 function animateDemo() {
+  const demoLabel = document.querySelector('.demo-label');
   const shortcode = ';ty';
   const expansion = 'Thank you so much for your help!';
 
   let phase = 0;
   // 0: typing shortcode
-  // 1: pause
+  // 1: pause before expansion
   // 2: expand (replace shortcode with expansion)
   // 3: pause with full expansion
   // 4: reset
@@ -129,18 +130,21 @@ function animateDemo() {
 
   function type() {
     if (phase === 0) {
+      // Update label
+      if (demoLabel) demoLabel.textContent = 'Type a shortcode...';
       // Typing shortcode character by character
       if (charIndex <= shortcode.length) {
         const typed = shortcode.slice(0, charIndex);
         demoLine.innerHTML = `<span class="demo-shortcode">${typed}</span><span class="demo-cursor"></span>`;
         charIndex++;
-        setTimeout(type, 120);
+        setTimeout(type, 150);
       } else {
         phase = 1;
-        setTimeout(type, 600);
+        setTimeout(type, 800);
       }
     } else if (phase === 1) {
-      // Brief pause before expansion
+      // Brief pause before expansion - update label
+      if (demoLabel) demoLabel.textContent = 'And it expands instantly!';
       phase = 2;
       charIndex = 0;
       type();
@@ -150,10 +154,10 @@ function animateDemo() {
         const typed = expansion.slice(0, charIndex);
         demoLine.innerHTML = `<span class="demo-expansion">${typed}</span><span class="demo-cursor"></span>`;
         charIndex++;
-        setTimeout(type, 25);
+        setTimeout(type, 20);
       } else {
         phase = 3;
-        setTimeout(type, 2500);
+        setTimeout(type, 3000);
       }
     } else if (phase === 3) {
       // Pause with full expansion shown
@@ -163,8 +167,9 @@ function animateDemo() {
       // Reset - clear and start over
       phase = 0;
       charIndex = 0;
+      if (demoLabel) demoLabel.textContent = 'Type a shortcode...';
       demoLine.innerHTML = '<span class="demo-cursor"></span>';
-      setTimeout(type, 1000);
+      setTimeout(type, 1500);
     }
   }
 
@@ -194,15 +199,41 @@ if (googleSignInBtn) {
   googleSignInBtn.addEventListener('click', signInWithGoogle);
 }
 
+// Scroll animations with IntersectionObserver
+function initScrollAnimations() {
+  const animatedElements = document.querySelectorAll('.animate-on-scroll');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    animatedElements.forEach(el => observer.observe(el));
+  } else {
+    // Fallback for browsers without IntersectionObserver
+    animatedElements.forEach(el => el.classList.add('visible'));
+  }
+}
+
 // Initialize
 (async function init() {
   try {
     await loadFirebase();
     checkAuthState();
     animateDemo();
+    initScrollAnimations();
   } catch (error) {
     console.error('Failed to load Firebase:', error);
-    // Still run demo animation
+    // Still run demo animation and scroll animations
     animateDemo();
+    initScrollAnimations();
   }
 })();
