@@ -22,7 +22,12 @@
       "Bash(firebase login:ci:*)",
       "Bash(git init:*)",
       "Bash(git remote add:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nInitial commit: SnippetApp Chrome extension\n\nFeatures:\n- Chrome Manifest V3 extension with Firebase backend\n- Google OAuth authentication\n- Snippet CRUD \\(create, edit, delete\\)\n- Shortcode expansion in all text inputs\n- Dynamic tokens: {date}, {time}, {clipboard}, {cursor}\n- Team sharing by email\n- Configurable trigger prefix\n- Landing page with Firebase hosting\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(git commit:*)",
+      "Bash(powershell -Command \"Compress-Archive -Path ''extension\\\\*'' -DestinationPath ''landing\\\\snippetapp-extension.zip'' -Force\")"
     ]
   }
 }
